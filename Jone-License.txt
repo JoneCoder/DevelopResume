@@ -1,0 +1,27 @@
+/*
+A Design by Jone
+Author: Jone
+*/
+----------------------------------
+NOTE : FREQUENTLY ASKED QUESTIONS 
+----------------------------------
+1. Will these templates work on iPhone, Android platforms, Tabs like kindle and Ipads?
+
+	Yes, This templates work with all Smartphones and Tablets. To, support all the devices we are providing bootstrap Responisve designs WEB Template.
+
+2. What is Web Template?
+
+	WEB template is a responsive design which can be used for desktop users. Users visiting website from desktop browsers can view WEB template
+
+
+3. Do I need a separate version for Smartphones and Tablets?
+
+	No, WEB Template is compatible in all web browsers, Smartphones and Tablets. 
+
+4. Do I need any database?
+
+	No, it is not necessary.
+
+5. Do you provide WordPress Themes?
+
+	Yes, we are working on it. Check WPMthemes.com
