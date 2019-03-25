@@ -2,10 +2,11 @@
 <div class="footer w3ls">
     <div class="container">
         <div class="w3ls-social-icons-2">
-            <a class="facebook" href="https://web.facebook.com/JoneDesigner" target="_blank"><i class="fa fa-facebook"></i></a>
-            <a class="twitter" href="https://twitter.com/JoneDesigner" target="_blank"><i class="fa fa-twitter"></i></a>
-            <a class="pinterest" href="https://www.instagram.com/jonecanvas" target="_blank"><i class="fa fa-instagram"></i></a>
-            <a class="linkedin" href="https://www.linkedin.com/in/jonedesigner/" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a class="facebook" href="<?php echo $afterAssocAdmin['facebook']; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+            <a class="twitter" href="<?php echo $afterAssocAdmin['twitter']; ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a class="pinterest" href="<?php echo $afterAssocAdmin['instagram']; ?>" target="_blank"><i class="fa fa-instagram"></i></a>
+            <a class="linkedin" href="<?php echo $afterAssocAdmin['linkedin']; ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a class="linkedin" href="<?php echo $afterAssocAdmin['website']; ?>" target="_blank"><i class="fa fa-globe"></i></a>
             <!--<a class="tumblr" href="#" target="_blank"><i class="fa fa-tumblr"></i></a>-->
         </div>
     </div>

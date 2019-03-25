@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-7 banner-text">
                     <p>Welcome</p>
-                    <h2><span>I am Sharif</span>Python & PHP Web Developer</h2>
+                    <h2><span>I am <?php echo $afterAssocAdmin['username']; ?></span><?php echo $afterAssocAdmin['profession']; ?></h2>
                     <div class="w3agile_hire_right">
                         <a href="#contact" class="wthree-more w3more1 nina scroll" data-text="hire me">
                             <span>h</span><span>i</span><span>r</span><span>e</span> <span>m</span><span>e</span>

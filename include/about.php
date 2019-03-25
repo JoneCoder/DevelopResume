@@ -30,23 +30,23 @@
             <div class="col-md-5 w3ls-agile-left">
                 <div class="w3ls-agile-left-info">
                     <h4>Name</h4>
-                    <p>Md. Shariful Islam</p>
+                    <p><?php echo $afterAssocAdmin['fullname']; ?></p>
                 </div>
                 <div class="w3ls-agile-left-info">
                     <h4>Sex</h4>
-                    <p>Male</p>
+                    <p><?php echo $afterAssocAdmin['gender']; ?></p>
                 </div>
                 <div class="w3ls-agile-left-info">
                     <h4>Address</h4>
-                    <p> 93, Narinda Road, Dhaka-Bangladesh.</p>
+                    <p><?php echo $afterAssocAdmin['address1']; ?></p>
                 </div>
                 <div class="w3ls-agile-left-info">
                     <h4>Phone Number</h4>
-                    <p>+8801712074151</p>
+                    <p>+88<?php echo $afterAssocAdmin['mobile']; ?></p>
                 </div>
                 <div class="w3ls-agile-left-info">
                     <h4>Email Address</h4>
-                    <p><a href="mohummadsharif4@gmail.com">mohummadsharif4@gmail.com</a></p>
+                    <p><a href="<?php echo $afterAssocAdmin['email']; ?>"><?php echo $afterAssocAdmin['email']; ?></a></p>
                 </div>
             </div>
         </div>
