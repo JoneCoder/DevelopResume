@@ -3,6 +3,7 @@ session_start();
 if (isset($_SESSION['adminId'])){
     $adminId = $_SESSION['adminId'];
     $_SESSION['adminId'] = $adminId;
+    $serviceId = $_GET['serviceId'];
 
     require '../../database/database.php';
     $selectAdmin = "SELECT * FROM `admin` WHERE id='$adminId'";
@@ -26,8 +27,10 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
-    $selectExperience = "SELECT * FROM `experience`";
-    $experience = mysqli_query($databaseConnect, $selectExperience);
+    $selectService = "SELECT * FROM `services` WHERE sn='$serviceId'";
+    $service = mysqli_query($databaseConnect, $selectService);
+    $afterAssocService = mysqli_fetch_assoc($service);
+
 
 }
 else{
@@ -292,9 +295,9 @@ function timeAgo($time){
                                 </div>
                             </div>
                         </div>
-                        <a href="../samples/projects.php"  class="btn btn-success btn-block">New Project
+                        <button data-target=".project-modal" data-toggle="modal" class="btn btn-success btn-block">New Project
                             <i class="mdi mdi-plus"></i>
-                        </a>
+                        </button>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -367,31 +370,63 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">Edit Service</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($experience as $expert){ ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <div class="row">
-                            <div class="col-md-12 text-center bg-info text-white">
-                                <span style="font-size: 30px; position: absolute; right: 0px;"><a href="edit_work.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-pencil" ></i></a>
-                                    <a href="../validate/del_experience.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
-</span>
-                                <span><?php echo $expert['start_end'] ?></span>
-                                <h5><?php echo $expert['title'] ?></h5>
-                                <p><?php echo $expert['institute'] ?></p>
-                            </div>
-                            <div class="col-md-12">
-                                <img src="../../../images/experience/<?php echo $expert['pic'] ?>" width="100%" height="200"/>
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Service</h4>
+                                <form action="../validate/edit_service.php" method="post" class="form-sample">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Title</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="title" value="<?php echo $afterAssocService['title']; ?>" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Service Icon</label>
+                                                <div class="col-sm-9">
+                                                    <select name="icons" class="form-control" id="#selected">
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-laptop'){ echo 'selected="selected"';} ?> value="mdi mdi-laptop">Laptop</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-file'){ echo 'selected="selected"';} ?> value="mdi mdi-file">File</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-pencil'){ echo 'selected="selected"';} ?> value="mdi mdi-pencil">Pencil</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-book-open-variant'){ echo 'selected="selected"';} ?> value="mdi mdi-book-open-variant">Book</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-code-tags'){ echo 'selected="selected"';} ?> value="mdi mdi-code-tags">Code</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-language-python'){ echo 'selected="selected"';} ?> value="mdi mdi-language-python">Python</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-language-php'){ echo 'selected="selected"';} ?> value="mdi mdi-language-php">PHP</option>
+                                                        <option <?php if ($afterAssocService['icons'] == 'mdi mdi-language-html5'){ echo 'selected="selected"';} ?> value="mdi mdi-language-html5">HTML5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label">Description</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <textarea name="serviceDes" rows="12" class="form-control" ><?php echo $afterAssocService['description']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" name="serviceId" value="<?php echo $afterAssocService['sn']; ?>" class="btn btn-success">Save info</button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
-                    </div>
-                    <?php } ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <button type="button" class="btn" data-target="#addWork" data-toggle="modal">
-                            <img src="../../../images/default_add.png" width="100%" height="280" class="p-3">
-                        </button>
                     </div>
                 </div>
             </div>
@@ -412,64 +447,6 @@ function timeAgo($time){
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-
-    <!--add-modal-->
-    <div class="modal fade" id="addWork">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-primary">
-                    <h3>Add Work Experience</h3>
-                    <input type="button" class="close" data-dismiss="modal" value="X">
-                </div>
-                <div class="modal-body text-center">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="../validate/add_experience.php" method="post" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Title</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="workTitle" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label>Starting Time</label>
-                                        <input type="date" name="start" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label>Ending Time</label>
-                                        <input type="date" name="end" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Institute</label>
-                                        <input type="text" name="institute" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Working Photo</label>
-                                        <input type="file" name="pic" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Description</label>
-                                        <textarea type="text" name="workDes" class="form-control"></textarea>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" class="btn btn-success form-control">Add project</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--//add-modal-->
-
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

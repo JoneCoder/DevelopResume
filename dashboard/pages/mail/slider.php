@@ -26,6 +26,9 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
+    $selectSlider = "SELECT * FROM `slider`";
+    $slider = mysqli_query($databaseConnect, $selectSlider);
+
 }
 else{
     header('location:pages/validate/logout.php');
@@ -118,6 +121,41 @@ function timeAgo($time){
     <link rel="stylesheet" href="../../../css/cm-overlay.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.ico" />
+
+    <style>
+        .slider{
+            width: 100%;
+            height: 390px;
+            padding: 20px;
+            box-shadow: 0 0 5px gray;
+        }
+        .slider-img{
+            width: 100%;
+            height: 100%;
+        }
+        .slider-img img{
+            width: 100%;
+            height: 100%;
+        }
+        .contact{
+            width: 100%;
+            height: 390px;
+            padding: 20px;
+            box-shadow: 0 0 5px gray;
+        }
+        hr{
+            margin: 0;
+            padding: 3px;
+        }
+        .single-img{
+            width: 100%;
+            height: 280px;
+        }
+        .single-img img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -136,17 +174,13 @@ function timeAgo($time){
         <div class="navbar-menu-wrapper d-flex align-items-center">
             <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Schedule
-                        <span class="badge badge-primary ml-1">New</span>
+                    <a href="../icons/mypng.php" class="nav-link">Mypng
+                        <span class="badge badge-primary ml-1 text-danger"><i class="mdi mdi-heart"></i></span>
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a href="#" class="nav-link">
-                        <i class="mdi mdi-elevation-rise"></i>Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+                    <a href="../background/background.php" class="nav-link">
+                        <i class="mdi mdi-elevation-rise"></i>Background</a>
                 </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
@@ -319,7 +353,7 @@ function timeAgo($time){
                                 <a class="nav-link" href="../mail/service.php">Services</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../mail/color.php">Colors</a>
+                                <a class="nav-link" href="../mail/others.php">Others</a>
                             </li>
                         </ul>
                     </div>
@@ -368,9 +402,62 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">My Self</h3>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="slider">
+                            <div id="mySlider" class="carousel faded" data-ride="carousel" data-interval="2200">
+                                <div class="carousel-inner">
+                                    <?php foreach ($slider as $slid){ ?>
+                                    <div class="carousel-item slider-img <?php if ($slid['action'] == 1){ echo 'active';} ?>">
+                                        <img src="../../../images/slider/<?php echo $slid['image']; ?>" alt="">
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 bg-primary text-white contact">
+                        <div class="">
+                            <h4>Name</h4>
+                            <p><?php echo $afterAssocAdmin['fullname']; ?></p><hr>
+                        </div>
+                        <div class="">
+                            <h4>Sex</h4>
+                            <p><?php echo $afterAssocAdmin['gender']; ?></p><hr>
+                        </div>
+                        <div class="">
+                            <h4>Address</h4>
+                            <p><?php echo $afterAssocAdmin['address1']; ?></p><hr>
+                        </div>
+                        <div class="">
+                            <h4>Phone Number</h4>
+                            <p>+88<?php echo $afterAssocAdmin['mobile']; ?></p><hr>
+                        </div>
+                        <div class="">
+                            <h4>Email Address</h4>
+                            <p><?php echo $afterAssocAdmin['email']; ?></p><hr>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php foreach ($slider as $slid){ if ($slid['default'] == 0){ ?>
+                    <div class="col-md-4 mt-3">
+                            <div class="single-img">
+                                <span style="font-size: 30px; position: absolute; right: 10px;"><a href="../validate/del_slid.php?slidId=<?php echo $slid['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
+                                <img src="../../../images/slider/<?php echo $slid['image']; ?>"/>
+                            </div>
+                    </div>
+                    <?php }} ?>
+                    <div class="col-md-4 mt-3">
+                            <div class="single-img">
+                                <a href="" data-target="#addSlid" data-toggle="modal"><img src="../../../images/default_add.png"/></a>
+                            </div>
+                    </div>
+                </div>
+            </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
                 <footer class="footer">
@@ -390,39 +477,26 @@ function timeAgo($time){
     </div>
 
     <!--edit-modal-->
-    <div class="modal fade project-modal">
+    <div class="modal fade" id="addSlid">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-primary">
-                    <h3>New project</h3>
+                    <h3>Add new slide image</h3>
                     <input type="button" class="close" data-dismiss="modal" value="X">
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-12">
-                            <form action="../validate/add_project.php" method="post" enctype="multipart/form-data">
+                            <form action="../validate/add_slide.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Project name</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="projectName" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project photo</label>
-                                        <input type="file" name="ppic" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project description</label>
-                                        <textarea type="text" name="projectDes" class="form-control"></textarea>
+                                        <label for="upload">Select photo</label>
+                                        <input type="file" name="slidePhoto" class="form-control" accept="image/*">
                                     </div>
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" name="id" class="btn btn-success form-control">Add project</button>
+                                        <button type="submit" name="id" class="btn btn-success form-control">Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -434,46 +508,6 @@ function timeAgo($time){
     </div>
     <!--//end-edit-modal-->
 
-    <!--edit-modal-->
-    <div class="modal fade" id="del-project">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-primary">
-                    <h3 class="text-danger">Delete project!</h3>
-                    <input type="button" class="close" data-dismiss="modal" value="X">
-                </div>
-                <div class="modal-body text-center">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="../validate/del_project.php" method="post">
-                                <div class="row">
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project name</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="projectName" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project ID</label>
-                                        <input type="number" name="projectId" class="form-control">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" name="id" class="btn btn-warning form-control">Delete</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--//end-edit-modal-->
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

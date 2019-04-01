@@ -3,6 +3,7 @@ session_start();
 if (isset($_SESSION['adminId'])){
     $adminId = $_SESSION['adminId'];
     $_SESSION['adminId'] = $adminId;
+    $experienceId = $_GET['experienceId'];
 
     require '../../database/database.php';
     $selectAdmin = "SELECT * FROM `admin` WHERE id='$adminId'";
@@ -26,8 +27,9 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
-    $selectExperience = "SELECT * FROM `experience`";
+    $selectExperience = "SELECT * FROM `experience` WHERE sn='$experienceId'";
     $experience = mysqli_query($databaseConnect, $selectExperience);
+    $afterAssocExperience = mysqli_fetch_assoc($experience);
 
 }
 else{
@@ -292,7 +294,7 @@ function timeAgo($time){
                                 </div>
                             </div>
                         </div>
-                        <a href="../samples/projects.php"  class="btn btn-success btn-block">New Project
+                        <a href="../samples/projects.php" class="btn btn-success btn-block">New Project
                             <i class="mdi mdi-plus"></i>
                         </a>
                     </div>
@@ -367,31 +369,73 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">Edit Work Experience</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($experience as $expert){ ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <div class="row">
-                            <div class="col-md-12 text-center bg-info text-white">
-                                <span style="font-size: 30px; position: absolute; right: 0px;"><a href="edit_work.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-pencil" ></i></a>
-                                    <a href="../validate/del_experience.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
-</span>
-                                <span><?php echo $expert['start_end'] ?></span>
-                                <h5><?php echo $expert['title'] ?></h5>
-                                <p><?php echo $expert['institute'] ?></p>
-                            </div>
-                            <div class="col-md-12">
-                                <img src="../../../images/experience/<?php echo $expert['pic'] ?>" width="100%" height="200"/>
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Work Experience</h4>
+                                <form action="../validate/edit_experience.php" method="post" class="form-sample">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Work Title</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="workTitle" value="<?php echo $afterAssocExperience['title']; ?>" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Starting Time</label>
+                                                    <div class="col-sm-9">
+                                                    <input type="date" name="start" class="form-control">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Institution</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="institute" value="<?php echo $afterAssocExperience['institute']; ?>" class="form-control" />
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">End Time</label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" name="end" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label">Work Description</label>
+                                                    <a href="" data-target="#experiPic" data-toggle="modal"><img src="../../../images/experience/<?php echo $afterAssocExperience['pic']; ?>" width="100%" height="150"/><div style="position: absolute; bottom: 5px; z-index: 3; text-align:  center; font-weight: 700; color: #fff; background-color: dimgrey; width: 90%;">Change photo</div></a>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <textarea name="workDes" rows="12" class="form-control" ><?php echo $afterAssocExperience['description']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" name="snId" value="<?php echo $experienceId; ?>" class="btn btn-success">Save info</button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
-                    </div>
-                    <?php } ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <button type="button" class="btn" data-target="#addWork" data-toggle="modal">
-                            <img src="../../../images/default_add.png" width="100%" height="280" class="p-3">
-                        </button>
                     </div>
                 </div>
             </div>
@@ -412,53 +456,30 @@ function timeAgo($time){
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-
-    <!--add-modal-->
-    <div class="modal fade" id="addWork">
+    <!-- container-scroller -->
+    <!--edit-modal-->
+    <div class="modal fade" id="experiPic">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-primary">
-                    <h3>Add Work Experience</h3>
+                    <h3>Update Photo</h3>
                     <input type="button" class="close" data-dismiss="modal" value="X">
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-12">
-                            <form action="../validate/add_experience.php" method="post" enctype="multipart/form-data">
+                            <form action="../validate/update_experience_pic.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Title</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="workTitle" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label>Starting Time</label>
-                                        <input type="date" name="start" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label>Ending Time</label>
-                                        <input type="date" name="end" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Institute</label>
-                                        <input type="text" name="institute" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Working Photo</label>
-                                        <input type="file" name="pic" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Description</label>
-                                        <textarea type="text" name="workDes" class="form-control"></textarea>
+                                        <label for="upload">Update work pic:</label>
+                                        <input type="file" name="workPic" class="form-control" accept="image/*">
                                     </div>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" class="btn btn-success form-control">Add project</button>
+                                        <button type="submit" name="snId" value="<?php echo $afterAssocExperience['sn']; ?>" class="btn btn-success form-control">UPDATE</button>
                                     </div>
                                 </div>
                             </form>
@@ -468,9 +489,7 @@ function timeAgo($time){
             </div>
         </div>
     </div>
-    <!--//add-modal-->
-
-    <!-- container-scroller -->
+    <!--//end-edit-modal-->
     <!-- plugins:js -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../../vendors/js/vendor.bundle.base.js"></script>

@@ -14,6 +14,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /> <!-- Bootstrap-Core-CSS -->
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" /> <!-- Style-CSS -->
     <link rel="stylesheet" href="css/font-awesome.css"> <!-- Font-Awesome-Icons-CSS -->
+    <link rel="stylesheet" href="dashboard/vendors/iconfonts/mdi/css/materialdesignicons.min.css"> <!-- Font-Awesome-Icons-CSS -->
     <link type="text/css" rel="stylesheet" href="css/cm-overlay.css" />
     <!-- //css files -->
     <!-- online-fonts -->

@@ -1,5 +1,5 @@
 <!-- introduce -->
-<div class="confi-w3l">
+<div class="confi-w3l" <?php foreach ($background as $back){ if ($back['id'] == 4){ echo 'style="background:url(images/background/'.$back['pic'].')no-repeat 0px 0px fixed; background-size:cover;"';}} ?>>
     <div class="container text-justify">
         <h3>Hello....</h3>
         <p><?php echo $afterAssocAdmin['about']; ?></p>

@@ -1,5 +1,5 @@
 <!-- interests -->
-<div class="intra-w3l">
+<div class="intra-w3l" <?php foreach ($background as $back){ if ($back['id'] == 3){ echo 'style="background:url(images/background/'.$back['pic'].')no-repeat center 0px; background-size:cover;"';}} ?>>
     <div class="container">
         <h3 class="w3l-title">Interests</h3>
         <div class="agile-w3l-in">

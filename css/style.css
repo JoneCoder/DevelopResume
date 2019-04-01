@@ -1,7 +1,5 @@
 /*--
 Author: Jone
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 body{
 	font-family: 'Raleway', sans-serif;
@@ -32,7 +30,6 @@ body a:hover{
 }
 /*-- banner --*/
 .banner {
-    background:url(../images/1.jpg)no-repeat center 0px;
     background-size:cover;
 	position: relative;	 
 } 
@@ -90,7 +87,7 @@ body a:hover{
 	right: -15%;
 }
 .banner-left {
-    padding-top: 1em;
+    padding-top: 6em;
 }
 .banner-left img {
     width: 100%;
@@ -582,8 +579,7 @@ h3.w3l-title:after {
 /*-- //slider --*/
 /*-- //about --*/
 /*-- skills --*/
-.stats { 
-	background: url(../images/2.jpg)no-repeat 0px 0px fixed;
+.stats {
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -745,7 +741,6 @@ h3.w3l-title:after {
 /*-- //services --*/
 /*-- interestes --*/
 .intra-w3l{
-	background: url(../images/3.jpg)no-repeat 0px 0px fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -1235,7 +1230,6 @@ a.accordion-section-title span {
 /*-- //contact --*/
 /*-- introduce --*/
 .confi-w3l{
-	background: url(../images/4.jpg)no-repeat 0px 0px fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;

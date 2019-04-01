@@ -21,12 +21,19 @@ elseif (!in_array($last_extension, $allowed_extension)){
     $typeErr = 1;
     header('location:../samples/admin_profile.php?typeErr='.$typeErr);
 }
-elseif ($photoSize > 100000){
+elseif ($photoSize > 10000 * 100){
     $sizeErr = 1;
     header('location:../samples/admin_profile.php?sizeErr='.$sizeErr);
 }
 else{
     require '../../database/database.php';
+    $selectAdmin = "SELECT `pic` as Jone FROM `admin` WHERE id='$adminId'";
+    $adminPic = mysqli_query($databaseConnect, $selectAdmin);
+    $afterAssocAdmin = mysqli_fetch_assoc($adminPic);
+    $picName = $afterAssocAdmin['Jone'];
+    $uploadLocation = '../../images/faces/'.$picName;
+    unlink($uploadLocation);
+
     $file_name = $adminId.'.'.$last_extension;
     $file_name = 'admin'.$file_name;
     $file_location = '../../images/faces/'.$file_name;

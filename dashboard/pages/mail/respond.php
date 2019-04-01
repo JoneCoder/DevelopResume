@@ -135,17 +135,13 @@ function timeAgo($time){
           <div class="navbar-menu-wrapper d-flex align-items-center">
               <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                   <li class="nav-item">
-                      <a href="#" class="nav-link">Schedule
-                          <span class="badge badge-primary ml-1">New</span>
+                      <a href="../icons/mypng.php" class="nav-link">Mypng
+                          <span class="badge badge-primary ml-1 text-danger"><i class="mdi mdi-heart"></i></span>
                       </a>
                   </li>
                   <li class="nav-item active">
-                      <a href="#" class="nav-link">
-                          <i class="mdi mdi-elevation-rise"></i>Reports</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+                      <a href="../background/background.php" class="nav-link">
+                          <i class="mdi mdi-elevation-rise"></i>Background</a>
                   </li>
               </ul>
               <ul class="navbar-nav navbar-nav-right">
@@ -318,7 +314,7 @@ function timeAgo($time){
                                 <a class="nav-link" href="../mail/service.php">Service</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../mail/color.php">Colors</a>
+                                <a class="nav-link" href="../mail/others.php">Others</a>
                             </li>
                         </ul>
                     </div>

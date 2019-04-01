@@ -26,9 +26,6 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
-    $selectExperience = "SELECT * FROM `experience`";
-    $experience = mysqli_query($databaseConnect, $selectExperience);
-
 }
 else{
     header('location:pages/validate/logout.php');
@@ -292,9 +289,9 @@ function timeAgo($time){
                                 </div>
                             </div>
                         </div>
-                        <a href="../samples/projects.php"  class="btn btn-success btn-block">New Project
+                        <button data-target=".project-modal" data-toggle="modal" class="btn btn-success btn-block">New Project
                             <i class="mdi mdi-plus"></i>
-                        </a>
+                        </button>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -318,7 +315,7 @@ function timeAgo($time){
                                 <a class="nav-link" href="../mail/service.php">Services</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../mail/others.php">Others</a>
+                                <a class="nav-link" href="others.php">Others</a>
                             </li>
                         </ul>
                     </div>
@@ -367,32 +364,11 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">Others</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($experience as $expert){ ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <div class="row">
-                            <div class="col-md-12 text-center bg-info text-white">
-                                <span style="font-size: 30px; position: absolute; right: 0px;"><a href="edit_work.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-pencil" ></i></a>
-                                    <a href="../validate/del_experience.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
-</span>
-                                <span><?php echo $expert['start_end'] ?></span>
-                                <h5><?php echo $expert['title'] ?></h5>
-                                <p><?php echo $expert['institute'] ?></p>
-                            </div>
-                            <div class="col-md-12">
-                                <img src="../../../images/experience/<?php echo $expert['pic'] ?>" width="100%" height="200"/>
-                            </div>
-                        </div>
-                    </div>
-                    <?php } ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <button type="button" class="btn" data-target="#addWork" data-toggle="modal">
-                            <img src="../../../images/default_add.png" width="100%" height="280" class="p-3">
-                        </button>
-                    </div>
+
                 </div>
             </div>
                 <!-- content-wrapper ends -->
@@ -413,52 +389,40 @@ function timeAgo($time){
         <!-- page-body-wrapper ends -->
     </div>
 
-    <!--add-modal-->
-    <div class="modal fade" id="addWork">
+    <!--edit-modal-->
+    <div class="modal fade project-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-primary">
-                    <h3>Add Work Experience</h3>
+                    <h3>New project</h3>
                     <input type="button" class="close" data-dismiss="modal" value="X">
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-12">
-                            <form action="../validate/add_experience.php" method="post" enctype="multipart/form-data">
+                            <form action="../validate/add_project.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Title</label>
+                                        <label for="upload">Project name</label>
                                         <?php
                                         $_SESSION['adminId'] = $adminId;
                                         ?>
-                                        <input type="text" name="workTitle" class="form-control">
+                                        <input type="text" name="projectName" class="form-control">
                                     </div>
                                     <div class="col-12 form-group text-left">
-                                        <label>Starting Time</label>
-                                        <input type="date" name="start" class="form-control">
+                                        <label for="upload">Project photo</label>
+                                        <input type="file" name="ppic" class="form-control" accept="image/*">
                                     </div>
                                     <div class="col-12 form-group text-left">
-                                        <label>Ending Time</label>
-                                        <input type="date" name="end" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Institute</label>
-                                        <input type="text" name="institute" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Working Photo</label>
-                                        <input type="file" name="pic" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Description</label>
-                                        <textarea type="text" name="workDes" class="form-control"></textarea>
+                                        <label for="upload">Project description</label>
+                                        <textarea type="text" name="projectDes" class="form-control"></textarea>
                                     </div>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" class="btn btn-success form-control">Add project</button>
+                                        <button type="submit" name="id" class="btn btn-success form-control">Add project</button>
                                     </div>
                                 </div>
                             </form>
@@ -468,8 +432,48 @@ function timeAgo($time){
             </div>
         </div>
     </div>
-    <!--//add-modal-->
+    <!--//end-edit-modal-->
 
+    <!--edit-modal-->
+    <div class="modal fade" id="del-project">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-primary">
+                    <h3 class="text-danger">Delete project!</h3>
+                    <input type="button" class="close" data-dismiss="modal" value="X">
+                </div>
+                <div class="modal-body text-center">
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="../validate/del_project.php" method="post">
+                                <div class="row">
+                                    <div class="col-12 form-group text-left">
+                                        <label for="upload">Project name</label>
+                                        <?php
+                                        $_SESSION['adminId'] = $adminId;
+                                        ?>
+                                        <input type="text" name="projectName" class="form-control">
+                                    </div>
+                                    <div class="col-12 form-group text-left">
+                                        <label for="upload">Project ID</label>
+                                        <input type="number" name="projectId" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group mt-2 mb-2">
+                                        <button type="submit" name="id" class="btn btn-warning form-control">Delete</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//end-edit-modal-->
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

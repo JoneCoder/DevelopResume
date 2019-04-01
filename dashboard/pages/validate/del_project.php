@@ -8,6 +8,12 @@ if (isset($_SESSION['adminId'])){
     $projectId = $_POST['projectId'];
 
     require '../../database/database.php';
+    $select = "SELECT * FROM `projects` WHERE sn='$projectId'";
+    $project = mysqli_query($databaseConnect, $select);
+    $afterAssoc = mysqli_fetch_assoc($project);
+    $link = '../../../images/projects/'.$afterAssoc['ppic'];
+    unlink($link);
+
     $deleteProject = "DELETE FROM `projects` WHERE sn='$projectId' and projectname='$projectName'";
     $deleted = mysqli_query($databaseConnect, $deleteProject);
     header('location:../samples/projects.php');

@@ -26,8 +26,12 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
-    $selectExperience = "SELECT * FROM `experience`";
-    $experience = mysqli_query($databaseConnect, $selectExperience);
+    $selectSlider = "SELECT * FROM `slider`";
+    $slider = mysqli_query($databaseConnect, $selectSlider);
+
+    $selectMypng = "SELECT * FROM `mypng`";
+    $mypng = mysqli_query($databaseConnect, $selectMypng);
+    $afterAssocPng = mysqli_fetch_assoc($mypng);
 
 }
 else{
@@ -121,6 +125,41 @@ function timeAgo($time){
     <link rel="stylesheet" href="../../../css/cm-overlay.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.ico" />
+
+    <style>
+        .slider{
+            width: 100%;
+            height: 390px;
+            padding: 20px;
+            box-shadow: 0 0 5px gray;
+        }
+        .slider-img{
+            width: 100%;
+            height: 100%;
+        }
+        .slider-img img{
+            width: 100%;
+            height: 100%;
+        }
+        .contact{
+            width: 100%;
+            height: 390px;
+            padding: 20px;
+            box-shadow: 0 0 5px gray;
+        }
+        hr{
+            margin: 0;
+            padding: 3px;
+        }
+        .single-img{
+            width: 100%;
+            height: 280px;
+        }
+        .single-img img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -139,7 +178,7 @@ function timeAgo($time){
         <div class="navbar-menu-wrapper d-flex align-items-center">
             <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                 <li class="nav-item">
-                    <a href="../icons/mypng.php" class="nav-link">Mypng
+                    <a href="mypng.php" class="nav-link">Mypng
                         <span class="badge badge-primary ml-1 text-danger"><i class="mdi mdi-heart"></i></span>
                     </a>
                 </li>
@@ -292,9 +331,9 @@ function timeAgo($time){
                                 </div>
                             </div>
                         </div>
-                        <a href="../samples/projects.php"  class="btn btn-success btn-block">New Project
+                        <button data-target=".project-modal" data-toggle="modal" class="btn btn-success btn-block">New Project
                             <i class="mdi mdi-plus"></i>
-                        </a>
+                        </button>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -367,31 +406,18 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">Hello</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($experience as $expert){ ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <div class="row">
-                            <div class="col-md-12 text-center bg-info text-white">
-                                <span style="font-size: 30px; position: absolute; right: 0px;"><a href="edit_work.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-pencil" ></i></a>
-                                    <a href="../validate/del_experience.php?experienceId=<?php echo $expert['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
-</span>
-                                <span><?php echo $expert['start_end'] ?></span>
-                                <h5><?php echo $expert['title'] ?></h5>
-                                <p><?php echo $expert['institute'] ?></p>
-                            </div>
-                            <div class="col-md-12">
-                                <img src="../../../images/experience/<?php echo $expert['pic'] ?>" width="100%" height="200"/>
-                            </div>
-                        </div>
+                    <?php foreach ($mypng as $png){ ?>
+                    <div class="col-md-4 mt-3 p-3">
+                        <span style="font-size: 30px; position: absolute; right: 20px;"><a href="../validate/edit_png.php?pngId=<?php echo $png['sn']; ?>" title="<?php if ($png['action'] == 1){ echo 'Deactivate';}else{ echo 'Activate';} ?>"><i class="mdi mdi-heart <?php if ($png['action'] == 0){ echo 'text-white';}else{ echo 'text-danger';} ?>" ></i></a><a href="../validate/del_png.php?pngId=<?php echo $png['sn']; ?>" title="Delete"><i class="mdi mdi-delete text-warning" ></i></a></span>
+                        <img src="../../../images/mypng/<?php echo $png['png']; ?>" width="100%" height="400"/>
                     </div>
                     <?php } ?>
-                    <div class="col-md-4 p-3 mt-3" style="height: 290px;">
-                        <button type="button" class="btn" data-target="#addWork" data-toggle="modal">
-                            <img src="../../../images/default_add.png" width="100%" height="280" class="p-3">
-                        </button>
+                    <div class="col-md-4 mt-3 p-3">
+                        <a href="" data-target="#addPng" data-toggle="modal"><img src="../../../images/default_add.png" width="100%" height="250"/></a>
                     </div>
                 </div>
             </div>
@@ -413,52 +439,34 @@ function timeAgo($time){
         <!-- page-body-wrapper ends -->
     </div>
 
-    <!--add-modal-->
-    <div class="modal fade" id="addWork">
+    <!--edit-modal-->
+    <div class="modal fade" id="addPng">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-primary">
-                    <h3>Add Work Experience</h3>
+                    <h3>Add Your Fav</h3>
                     <input type="button" class="close" data-dismiss="modal" value="X">
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-12">
-                            <form action="../validate/add_experience.php" method="post" enctype="multipart/form-data">
+                            <form action="../validate/add_png.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Title</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="workTitle" class="form-control">
+                                        <label for="upload">Select photo</label>
+                                        <input type="file" name="png" class="form-control" accept="image/*">
                                     </div>
                                     <div class="col-12 form-group text-left">
-                                        <label>Starting Time</label>
-                                        <input type="date" name="start" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label>Ending Time</label>
-                                        <input type="date" name="end" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Institute</label>
-                                        <input type="text" name="institute" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Working Photo</label>
-                                        <input type="file" name="pic" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Work Description</label>
-                                        <textarea type="text" name="workDes" class="form-control"></textarea>
+                                        <label for="upload">Select Action</label>
+                                        <select name="action" class="form-control">
+                                            <option value="0">Deactivate</option>
+                                            <option value="1">Activate</option>
+                                        </select>
                                     </div>
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" class="btn btn-success form-control">Add project</button>
+                                        <button type="submit" name="id" class="btn btn-success form-control">Add</button>
                                     </div>
                                 </div>
                             </form>
@@ -468,7 +476,7 @@ function timeAgo($time){
             </div>
         </div>
     </div>
-    <!--//add-modal-->
+    <!--//end-edit-modal-->
 
     <!-- container-scroller -->
     <!-- plugins:js -->

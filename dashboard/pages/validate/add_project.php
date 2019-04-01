@@ -11,9 +11,13 @@ if (isset($_SESSION['adminId'])){
     $fileName = $projectPic['name'];
     $fileSize = $projectPic['size'];
     $fileTmp = $projectPic['tmp_name'];
+    $fileErr = $projectPic['error'];
     $extension = end(explode('.',$fileName));
     $allowExtension = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'];
-
+    if ($fileErr != 0){
+        $emptyErr = 1;
+        header('location:../samples/projects.php?emptyErr='.$emptyErr);
+    }
     if (!in_array($extension, $allowExtension)){
         $typeErr = 1;
         header('location:../samples/projects.php?typeErr='.$typeErr);

@@ -26,6 +26,10 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
+    $selectBack = "SELECT * FROM `background` WHERE id='2'";
+    $background = mysqli_query($databaseConnect, $selectBack);
+    $afterAssocBack = mysqli_fetch_assoc($background);
+
 }
 else{
     header('location:pages/validate/logout.php');
@@ -141,7 +145,7 @@ function timeAgo($time){
                       </a>
                   </li>
                   <li class="nav-item active">
-                      <a href="../background/background.php" class="nav-link">
+                      <a href="background.php" class="nav-link">
                           <i class="mdi mdi-elevation-rise"></i>Background</a>
                   </li>
               </ul>
@@ -364,43 +368,58 @@ function timeAgo($time){
         <div class="content-wrapper">
             <div class="row">
                 <div class="col-md-12 mb-2">
-                    <h3 class="text-center text-primary">My Projects</h3>
+                    <h3 class="text-center text-primary">Use Background Image</h3>
                 </div>
             </div>
             <div class="row">
-                <?php foreach ($project as $item){ ?>
-                <div class="col-md-3 mt-3">
-                    <div class="hovereffect">
-                        <a class="cm-overlay" title="<?php echo $item['description']; ?> 'Project ID = <?php echo $item['sn']; ?>'">
-                            <img src="../../../images/projects/<?php echo $item['ppic']; ?>" alt=" " width="100%" height="200">
-                            <div class="overlay">
-                                <h4><?php echo $item['projectname'] ?></h4>
-                            </div>
-                        </a>
+                <div class="col-md-12">
+                    <div class="">
+                        <img class="d-block w-100" src="../../../images/background/<?php echo $afterAssocBack['pic']; ?>" alt="Second slide">
                     </div>
                 </div>
-                <?php } ?>
-
-                <div class="col-md-3 mt-3">
-                    <div class="hovereffect">
-                        <a class="cm-overlay" data-target=".project-modal" data-toggle="modal">
-                            <img src="../../../images/default_add.png" alt=" " width="100%" height="200">
-                            <div class="overlay">
-                                <h4><i class="mdi mdi-plus"></i></h4>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-3">
+                    <form action="../validate/change_background.php" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label><i class="mdi mdi-alert text-warning"></i> Change Background Image</label>
+                            <input type="file" name="bg-pic" accept="image/*" class="file-upload-default">
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                        </span>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                        <button type="submit" name="snId" value="2" class="btn btn-primary mr-2">Submit</button>
+                        <a href="background-3.php" class="btn btn-light">Skip</a>
+                    </form>
                 </div>
-
-                <div class="col-md-3 mt-3">
-                    <div class="hovereffect">
-                        <a class="cm-overlay" data-target="#del-project" data-toggle="modal">
-                            <img src="../../../images/default_del.png" alt=" " width="100%" height="200">
-                            <div class="overlay">
-                                <h4><i class="mdi mdi-minus"></i></h4>
-                            </div>
-                        </a>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 ml-auto mr-auto mt-3">
+                    <nav aria-label="">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="background.php" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="background.php">1</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="background-2.php">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="background-3.php">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="background-4.php">4</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="background-3.php">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -421,92 +440,6 @@ function timeAgo($time){
     </div>
     <!-- page-body-wrapper ends -->
   </div>
-
-  <!--edit-modal-->
-  <div class="modal fade project-modal">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header text-primary">
-                  <h3>New project</h3>
-                  <input type="button" class="close" data-dismiss="modal" value="X">
-              </div>
-              <div class="modal-body text-center">
-                  <div class="row">
-                      <div class="col-12">
-                          <form action="../validate/add_project.php" method="post" enctype="multipart/form-data">
-                              <div class="row">
-                                  <div class="col-12 form-group text-left">
-                                      <label for="upload">Project name</label>
-                                      <?php
-                                      $_SESSION['adminId'] = $adminId;
-                                      ?>
-                                      <input type="text" name="projectName" class="form-control">
-                                  </div>
-                                  <div class="col-12 form-group text-left">
-                                      <label for="upload">Project photo</label>
-                                      <input type="file" name="ppic" class="form-control" accept="image/*">
-                                  </div>
-                                  <div class="col-12 form-group text-left">
-                                      <label for="upload">Project description</label>
-                                      <textarea type="text" name="projectDes" class="form-control"></textarea>
-                                  </div>
-                              </div>
-
-
-                              <div class="row">
-                                  <div class="col-md-12 form-group mt-2 mb-2">
-                                      <button type="submit" name="id" class="btn btn-success form-control">Add project</button>
-                                  </div>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!--//end-edit-modal-->
-
-      <!--edit-modal-->
-      <div class="modal fade" id="del-project">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header text-primary">
-                      <h3 class="text-danger">Delete project!</h3>
-                      <input type="button" class="close" data-dismiss="modal" value="X">
-                  </div>
-                  <div class="modal-body text-center">
-                      <div class="row">
-                          <div class="col-12">
-                              <form action="../validate/del_project.php" method="post">
-                                  <div class="row">
-                                      <div class="col-12 form-group text-left">
-                                          <label for="upload">Project name</label>
-                                          <?php
-                                          $_SESSION['adminId'] = $adminId;
-                                          ?>
-                                          <input type="text" name="projectName" class="form-control">
-                                      </div>
-                                      <div class="col-12 form-group text-left">
-                                          <label for="upload">Project ID</label>
-                                          <input type="number" name="projectId" class="form-control">
-                                      </div>
-                                  </div>
-
-
-                                  <div class="row">
-                                      <div class="col-md-12 form-group mt-2 mb-2">
-                                          <button type="submit" name="id" class="btn btn-warning form-control">Delete</button>
-                                      </div>
-                                  </div>
-                              </form>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!--//end-edit-modal-->
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -519,6 +452,7 @@ function timeAgo($time){
   <script src="../../js/off-canvas.js"></script>
   <script src="../../js/misc.js"></script>
   <script src="../../../js/jquery.cm-overlay.js"></script>
+  <script src="../../js/file-upload.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->

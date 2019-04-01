@@ -5,26 +5,13 @@
         <div class="about-w3l-agileifo-grid">
             <div class="col-md-7 agile-w3l-ab">
                 <ul class="rslides" id="slider">
+                    <?php foreach ($slider as $slid){ ?>
                     <li>
                         <div class="agile-w3l-ab-img">
-                            <img src="images/a4.jpg" class="img-responsive" alt="Homey Designs">
+                            <img src="images/slider/<?php echo $slid['image']; ?>" class="img-responsive" alt="Homey Designs">
                         </div>
                     </li>
-                    <li>
-                        <div class="agile-w3l-ab-img">
-                            <img src="images/a3.jpg" class="img-responsive" alt="Homey Designs">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="agile-w3l-ab-img">
-                            <img src="images/a2.jpg" class="img-responsive" alt="Homey Designs">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="agile-w3l-ab-img">
-                            <img src="images/a1.jpg" class="img-responsive" alt="Homey Designs">
-                        </div>
-                    </li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="col-md-5 w3ls-agile-left">

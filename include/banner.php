@@ -1,5 +1,5 @@
 <!-- banner -->
-<div id="home" class="banner">
+<div id="home" class="banner" <?php foreach ($background as $back){ if ($back['id'] == 1){ echo 'style="background:url(images/background/'.$back['pic'].')no-repeat center 0px; background-size:cover; position: relative;"';}} ?>>
     <div class="banner-agileinfo">
         <!-- header -->
         <div class="header">
@@ -27,7 +27,7 @@
         <div class="banner-main">
             <div class="container">
                 <div class="col-md-5 banner-left">
-                    <img src="images/i1.png" alt="">
+                    <img src="images/mypng/<?php echo $afterAssocPng['png']; ?>" alt="">
                 </div>
                 <div class="col-md-7 banner-text">
                     <p>Welcome</p>

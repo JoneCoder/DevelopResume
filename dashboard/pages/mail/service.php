@@ -26,6 +26,10 @@ if (isset($_SESSION['adminId'])){
     $selectProject = "SELECT * FROM `projects`";
     $project = mysqli_query($databaseConnect, $selectProject);
 
+    $selectService = "SELECT * FROM `services`";
+    $service = mysqli_query($databaseConnect, $selectService);
+
+
 }
 else{
     header('location:pages/validate/logout.php');
@@ -136,17 +140,13 @@ function timeAgo($time){
         <div class="navbar-menu-wrapper d-flex align-items-center">
             <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Schedule
-                        <span class="badge badge-primary ml-1">New</span>
+                    <a href="../icons/mypng.php" class="nav-link">Mypng
+                        <span class="badge badge-primary ml-1 text-danger"><i class="mdi mdi-heart"></i></span>
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a href="#" class="nav-link">
-                        <i class="mdi mdi-elevation-rise"></i>Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+                    <a href="../background/background.php" class="nav-link">
+                        <i class="mdi mdi-elevation-rise"></i>Background</a>
                 </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
@@ -319,7 +319,7 @@ function timeAgo($time){
                                 <a class="nav-link" href="../mail/service.php">Services</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../mail/color.php">Colors</a>
+                                <a class="nav-link" href="../mail/others.php">Others</a>
                             </li>
                         </ul>
                     </div>
@@ -368,9 +368,46 @@ function timeAgo($time){
             <div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <h3 class="text-center text-primary">Work Experience</h3>
+                        <h3 class="text-center text-primary">My Services</h3>
                     </div>
                 </div>
+
+                <div class="row">
+                    <?php foreach ($service as $item){ ?>
+                    <div class="col-md-4 s-1 mt-3">
+                        <a href="#">
+                            <div class="view view-fifth">
+                                <i class="<?php echo $item['icons']; ?>" aria-hidden="true"></i>
+                                <div class="mask">
+                                    <i class="<?php echo $item['icons']; ?>" aria-hidden="true"></i>
+                                    <span style="font-size: 30px; position: absolute; right: 0;"><a href="edit_service.php?serviceId=<?php echo $item['sn']; ?>"><span class="mdi mdi-pencil text-white" ></span></a>
+                                    <a href="../validate/del_service.php?serviceId=<?php echo $item['sn']; ?>"><span class="mdi mdi-delete text-white" ></span></a></span>
+                                    <h4><?php echo $item['title']; ?></h4>
+                                    <p><?php echo $item['description']; ?></p>
+                                </div>
+                                <h3><?php echo $item['title']; ?></h3>
+                            </div>
+                        </a>
+                    </div>
+                    <?php } ?>
+
+                    <div class="col-md-4 s-1 mt-3">
+                        <a href="#">
+                            <div class="view view-fifth">
+                                <i class="mdi mdi-plus" aria-hidden="true"></i>
+                                <a href="" data-target="#addService" data-toggle="modal">
+                                <div class="mask">
+                                    <i class="mdi mdi-plus" aria-hidden="true"></i>
+                                    <h4>Web Design</h4>
+                                    <p>Full responsive web design. Support all the devices we are providing bootstrap Responsive designs.</p>
+                                </div>
+                                </a>
+                                <h3>Add Service</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:../../partials/_footer.html -->
                 <footer class="footer">
@@ -390,80 +427,45 @@ function timeAgo($time){
     </div>
 
     <!--edit-modal-->
-    <div class="modal fade project-modal">
+    <div class="modal fade" id="addService">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-primary">
-                    <h3>New project</h3>
-                    <input type="button" class="close" data-dismiss="modal" value="X">
+                    <h3>New Service</h3>
+                    <button type="button" class="close btn btn-outline-info" data-dismiss="modal">Cancel</button>
                 </div>
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-12">
-                            <form action="../validate/add_project.php" method="post" enctype="multipart/form-data">
+                            <form action="../validate/add_service.php" method="post">
                                 <div class="row">
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Project name</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="projectName" class="form-control">
+                                        <label for="upload">Title</label>
+                                        <input type="text" name="title" class="form-control">
                                     </div>
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Project photo</label>
-                                        <input type="file" name="ppic" class="form-control" accept="image/*">
+                                        <label for="">Service Icon</label>
+                                        <select name="icons" class="form-control">
+                                            <option value="mdi mdi-laptop">Laptop</option>
+                                            <option value="mdi mdi-file">File</option>
+                                            <option value="mdi mdi-pencil">Pencil</option>
+                                            <option value="mdi mdi-book-open-variant">Book</option>
+                                            <option value="mdi mdi-code-tags">Code</option>
+                                            <option value="mdi mdi-language-python">Python</option>
+                                            <option value="mdi mdi-language-php">PHP</option>
+                                            <option value="mdi mdi-language-html5">HTML5</option>
+                                        </select>
                                     </div>
                                     <div class="col-12 form-group text-left">
-                                        <label for="upload">Project description</label>
-                                        <textarea type="text" name="projectDes" class="form-control"></textarea>
+                                        <label for="">Description</label>
+                                        <textarea type="text" rows="7" name="description" class="form-control"></textarea>
                                     </div>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" name="id" class="btn btn-success form-control">Add project</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--//end-edit-modal-->
-
-    <!--edit-modal-->
-    <div class="modal fade" id="del-project">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-primary">
-                    <h3 class="text-danger">Delete project!</h3>
-                    <input type="button" class="close" data-dismiss="modal" value="X">
-                </div>
-                <div class="modal-body text-center">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="../validate/del_project.php" method="post">
-                                <div class="row">
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project name</label>
-                                        <?php
-                                        $_SESSION['adminId'] = $adminId;
-                                        ?>
-                                        <input type="text" name="projectName" class="form-control">
-                                    </div>
-                                    <div class="col-12 form-group text-left">
-                                        <label for="upload">Project ID</label>
-                                        <input type="number" name="projectId" class="form-control">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12 form-group mt-2 mb-2">
-                                        <button type="submit" name="id" class="btn btn-warning form-control">Delete</button>
+                                        <button type="submit" class="btn btn-success form-control">Add</button>
                                     </div>
                                 </div>
                             </form>

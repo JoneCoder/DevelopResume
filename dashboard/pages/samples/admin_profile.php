@@ -23,6 +23,9 @@ if (isset($_SESSION['adminId'])){
     $selectUserRes = "SELECT * FROM `message` WHERE respond='0'";
     $userDataRes = mysqli_query($databaseConnect, $selectUserRes);
 
+    $selectEdu = "SELECT * FROM `education`";
+    $education = mysqli_query($databaseConnect, $selectEdu);
+
 }
 else{
     header('location:pages/validate/logout.php');
@@ -131,17 +134,13 @@ function timeAgo($time){
           <div class="navbar-menu-wrapper d-flex align-items-center">
               <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
                   <li class="nav-item">
-                      <a href="#" class="nav-link">Schedule
-                          <span class="badge badge-primary ml-1">New</span>
+                      <a href="../icons/mypng.php" class="nav-link">Mypng
+                          <span class="badge badge-primary ml-1 text-danger"><i class="mdi mdi-heart"></i></span>
                       </a>
                   </li>
                   <li class="nav-item active">
-                      <a href="#" class="nav-link">
-                          <i class="mdi mdi-elevation-rise"></i>Reports</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="mdi mdi-bookmark-plus-outline"></i>Score</a>
+                      <a href="../background/background.php" class="nav-link">
+                          <i class="mdi mdi-elevation-rise"></i>Background</a>
                   </li>
               </ul>
               <ul class="navbar-nav navbar-nav-right">
@@ -314,7 +313,7 @@ function timeAgo($time){
                                   <a class="nav-link" href="../mail/service.php">Services</a>
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="../mail/color.php">Colors</a>
+                                  <a class="nav-link" href="../mail/others.php">Others</a>
                               </li>
                           </ul>
                       </div>
@@ -528,8 +527,102 @@ function timeAgo($time){
                         </div>
                     </div>
             </div>
+            <div class="col-12">
+                <div class="accodion" id="newAccodion">
+                <div class="card">
+                    <h5 class="card-header">Education</h5>
+                    <?php $x = 1; foreach ($education as $edu){ ?>
+                    <div class="card-body">
+                        <span style="font-size: 30px; position: absolute; right: 0px;"><a href="" data-target="#edit<?php echo $edu['sn']; ?>" data-toggle="collapse"><i class="mdi mdi-pencil" ></i></a><a href="../validate/del_education.php?snId=<?php echo $edu['sn']; ?>"><i class="mdi mdi-delete" ></i></a></span>
+                        <h3 class="card-title"><strong><?php echo $edu['degree'] ?></strong></h3>
+                        <h5 class="card-title"><strong><?php echo $edu['institution'] ?></strong> <span class="text-primary"><?php echo $edu['passing'] ?></span></h5>
+                        <p class="card-text"><?php echo $edu['description'] ?></p>
+                        <?php
+                        $x++;
+                        if ($x > 3){
+                            echo '';
+                        }
+                        else{
+                            echo '<hr>';
+                        }
+                        ?>
+                    </div>
 
-            <div class="col-12 grid-margin">
+                        <div class="collapse" id="edit<?php echo $edu['sn']; ?>" data-parent="#newAccodion">
+                            <div class="card-body">
+                                <h4 class="card-title">Edit Education</h4>
+                                <form action="../validate/edit_education.php" method="post" class="form-sample">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Institution</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="ins" value="<?php echo $edu['institution']; ?>" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Degree</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="degree" value="<?php echo $edu['degree']; ?>" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Passing Year</label>
+                                                <div class="col-sm-9">
+                                                    <select name="passing" class="form-control" id="selected<?php echo $edu['sn']; ?>">
+                                                        <option <?php if ($edu['passing'] == 2019){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2019"> 2019 </option>
+                                                        <option <?php if ($edu['passing'] == 2018){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2018"> 2018 </option>
+                                                        <option <?php if ($edu['passing'] == 2017){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2017"> 2017 </option>
+                                                        <option <?php if ($edu['passing'] == 2016){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2016"> 2016 </option>
+                                                        <option <?php if ($edu['passing'] == 2015){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2015"> 2015 </option>
+                                                        <option <?php if ($edu['passing'] == 2014){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2014"> 2014 </option>
+                                                        <option <?php if ($edu['passing'] == 2013){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2013"> 2013 </option>
+                                                        <option <?php if ($edu['passing'] == 2012){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2012"> 2012 </option>
+                                                        <option <?php if ($edu['passing'] == 2011){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2011"> 2011 </option>
+                                                        <option <?php if ($edu['passing'] == 2010){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2010"> 2010 </option>
+                                                        <option <?php if ($edu['passing'] == 2009){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2009"> 2009 </option>
+                                                        <option <?php if ($edu['passing'] == 2008){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2008"> 2008 </option>
+                                                        <option <?php if ($edu['passing'] == 2007){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2007"> 2007 </option>
+                                                        <option <?php if ($edu['passing'] == 2006){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2006"> 2006 </option>
+                                                        <option <?php if ($edu['passing'] == 2005){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2005"> 2005 </option>
+                                                        <option <?php if ($edu['passing'] == 2004){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2004"> 2004 </option>
+                                                        <option <?php if ($edu['passing'] == 2003){ echo 'selected="selected'.$edu['sn'].'"';} ?> value="2003"> 2003 </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Description</label>
+                                                <div class="col-sm-9">
+                                                    <textarea name="des" rows="10" class="form-control" ><?php echo $edu['description']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" name="snId" value="<?php echo $edu['sn']; ?>" class="btn btn-success">Save info</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3 grid-margin">
                 <div class="card">
                     <div class="card-body">
                         <ul class="nav nav-tabs">
